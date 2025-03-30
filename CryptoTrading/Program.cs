@@ -1,18 +1,62 @@
 using CryptoTrading.DataContext;
+using CryptoTrading.Extensions;
+using CryptoTrading.Services.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
 //DB Connection
 builder.Services.AddDbContext<SQL>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
+//Services
+builder.Services.AddLocalServices();
+
+//JWT Token
+byte[] JWTKey = Encoding.UTF8.GetBytes(builder.Configuration["JWT:JWTKey"]);
+string? Audience = builder.Configuration["JWT:Audience"];
+string? Issuer = builder.Configuration["JWT:Issuer"];
+builder.Services.AddScoped<TokenHandlerService>(sp => new TokenHandlerService(JWTKey, Issuer, Audience));
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
+    options.AddPolicy("UserPolicy", policy => policy.RequireRole("Admin"));
+});
+
+builder.Services.AddCors();
+
+//swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptoTrading", Version = "v1" });
 
 
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }});
+});
 
 
 var app = builder.Build();
@@ -20,12 +64,22 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CryptoTrading API v1"));
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CryptoTrading API");
+    });
 }
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors(options =>
+{
+    options.AllowAnyMethod();
+    options.AllowAnyOrigin();
+    options.AllowAnyHeader();
+});
 
 app.MapControllers();
 

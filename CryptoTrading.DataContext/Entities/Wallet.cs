@@ -23,6 +23,9 @@ namespace CryptoTrading.DataContext.Entities
          */
 
         [NotMapped]
+        List<WalletHolding> Holdings { get; set; }
+
+        [NotMapped]
         public User User { get; set; }
     }
 }
