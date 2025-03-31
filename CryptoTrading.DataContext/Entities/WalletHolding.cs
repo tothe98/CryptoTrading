@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,8 @@ using System.Threading.Tasks;
 namespace CryptoTrading.DataContext.Entities
 {
     [Table("WalletHoldings")]
-    public class WalletHolding : AbstractEntity
+    [PrimaryKey(nameof(WalletId), nameof(CryptoCurrencyId))]
+    public class WalletHolding
     {
         public int WalletId { get; set; }
         [ForeignKey("WalletId")]
@@ -18,11 +20,10 @@ namespace CryptoTrading.DataContext.Entities
 
         [Required]
         public decimal Amount { get; set; } = 0;
+        public CryptoCurrency CryptoCurrency { get; set; }
 
         [NotMapped]
         public Wallet Wallet { get; set; }
-        [NotMapped]
-        public CryptoCurrency CryptoCurrency { get; set; }
 
     }
 }

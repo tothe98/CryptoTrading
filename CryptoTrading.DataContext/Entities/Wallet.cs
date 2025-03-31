@@ -14,6 +14,7 @@ namespace CryptoTrading.DataContext.Entities
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public decimal Balance { get; set; } = 0;
+        public List<WalletHolding> Holdings { get; set; }
 
 
         /*
@@ -22,8 +23,6 @@ namespace CryptoTrading.DataContext.Entities
          * Egy usernek több pénztárca más-más valutában        
          */
 
-        [NotMapped]
-        List<WalletHolding> Holdings { get; set; }
 
         [NotMapped]
         public User User { get; set; }

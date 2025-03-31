@@ -19,6 +19,10 @@ namespace CryptoTrading.Services.Services
             CreateMap<UserCreateDto, User>();
             CreateMap<UserLoginDto, User>();
             CreateMap<UserUpdateDto, User>();
+
+            CreateMap<Wallet, WalletDto>().ReverseMap();
+            CreateMap<Wallet, WalletDetailDto>().ReverseMap();
+            CreateMap<WalletHolding, WalletHoldingDto>().ReverseMap();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace CryptoTrading.Extensions
         {
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWalletService, WalletService>();
         }
     }
 }
