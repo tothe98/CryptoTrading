@@ -13,7 +13,7 @@ namespace CryptoTrading.Services.Services
     {
         public AutoMapperProfile()
         {
-          
+
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, UserDataDto>().ReverseMap();
             CreateMap<UserCreateDto, User>();
@@ -23,6 +23,11 @@ namespace CryptoTrading.Services.Services
             CreateMap<Wallet, WalletDto>().ReverseMap();
             CreateMap<Wallet, WalletDetailDto>().ReverseMap();
             CreateMap<WalletHolding, WalletHoldingDto>().ReverseMap();
+
+            CreateMap<CryptoCurrency, CryptoDto>().ReverseMap();
+            CreateMap<CryptoCreateDto, CryptoCurrency>()
+                .ForMember(dest => dest.CurrentPrice, act => act.MapFrom(a => a.InitialPrice));
+            
         }
     }
 }

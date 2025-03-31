@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 namespace CryptoTrading.DataContext.Entities
 {
     [Table("CryptoPriceFluctuation")]
-    public class CryptoPriceFluctuation :AbstractEntity
+    public class CryptoPriceFluctuation : AbstractEntity
     {
         public int CryptoCurrencyId { get; set; }
         [ForeignKey("CryptoCurrencyId")]
+
+        [Required]
+        public decimal OldPrice { get; set; }
 
         [Required]
         public decimal Price { get; set; }

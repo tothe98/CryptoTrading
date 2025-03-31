@@ -17,5 +17,9 @@ namespace CryptoTrading.DataContext.Entities
         public string Symbol { get; set; }
         [Required]
         public decimal InitialPrice { get; set; } = 0;
+        public decimal CurrentPrice { get; set; } = 0;
+
+        [NotMapped]
+        public List<CryptoPriceFluctuation> Fluctuation { get; set; }
     }
 }
