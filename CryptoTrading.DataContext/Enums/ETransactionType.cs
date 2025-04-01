@@ -10,6 +10,7 @@ namespace CryptoTrading.DataContext.Enums
     {
         BUY,
         SELL,
-        GIFT
+        GIFT,
+        GET
     }
 }

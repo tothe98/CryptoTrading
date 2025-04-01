@@ -25,7 +25,13 @@ namespace CryptoTrading.DataContext.Dtos
     {
         public int CryptoCurrencyId { get; set; }
         public int WalletId { get; set; }
-        public CryptoCurrency Crypto { get; set; }
+        public CryptoDto CryptoCurrency { get; set; }
+        public decimal Amount { get; set; }
+    }
+
+    public class WalletHoldingAmountDto
+    {
+        public CryptoDto CryptoCurrency { get; set; }
         public decimal Amount { get; set; }
     }
 

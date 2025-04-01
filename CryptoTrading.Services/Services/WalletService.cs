@@ -31,21 +31,23 @@ namespace CryptoTrading.Services.Services
         public async Task<bool> DeleteWallet(int userId)
         {
             var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.UserId == userId);
-            if(wallet != default)
+            if (wallet != default)
             {
                 try
                 {
 
-                var walletHoldings = _context.WalletHoldings.Where(h => h.WalletId == wallet.Id).ToList();
-                _context.WalletHoldings.RemoveRange(walletHoldings);
-                _context.Wallets.Remove(wallet);
-                await _context.SaveChangesAsync();
-                return true;
-                } catch (Exception ex)
+                    var walletHoldings = _context.WalletHoldings.Where(h => h.WalletId == wallet.Id).ToList();
+                    _context.WalletHoldings.RemoveRange(walletHoldings);
+                    _context.Wallets.Remove(wallet);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception ex)
                 {
                     throw new Exception($"Server error: {ex.Message}");
                 }
-            } else
+            }
+            else
             {
                 throw new Exception("Wallet not found");
             }

@@ -17,5 +17,6 @@ namespace CryptoTrading.DataContext
         public DbSet<WalletHolding> WalletHoldings { get; set; }
         public DbSet<CryptoCurrency> CryptoCurrencies { get; set; }
         public DbSet<CryptoPriceFluctuation> CryptoPriceFluctuations { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }
