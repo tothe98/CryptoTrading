@@ -1,6 +1,8 @@
 ﻿using CryptoTrading.DataContext.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +29,20 @@ namespace CryptoTrading.DataContext.Dtos
         public int UserId { get; set; }
         public int CryptoId { get; set; }
         public int Amount { get; set; }
+    }
+
+    public class PriceChangeDto
+    {
+        public int CryptoId { get; set; }
+        public decimal NewPrice { get; set; }
+    }
+
+    public class CryptoFluctuationDto
+    {
+        public string Name { get; set; }
+        public decimal OldPrice { get; set; }
+        public decimal Price { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
     }
 
     public class TransactionDto

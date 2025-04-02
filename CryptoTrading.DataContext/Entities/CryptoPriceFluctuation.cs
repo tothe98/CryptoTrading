@@ -22,7 +22,6 @@ namespace CryptoTrading.DataContext.Entities
 
         public DateTime Timestamp { get; set; } = DateTime.Now;
 
-        [NotMapped]
         public CryptoCurrency CryptoCurrency { get; set; }
     }
 }

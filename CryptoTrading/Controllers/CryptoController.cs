@@ -4,65 +4,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoTrading.Controllers
 {
-
     [ApiController]
-    [Route("/cryptos")]
+    [Route("crypto")]
     public class CryptoController : ControllerBase
     {
-
         private readonly ICryptoService _cryptoService;
+
         public CryptoController(ICryptoService cryptoService)
         {
             _cryptoService = cryptoService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<CryptoDto>>> GetAll()
-        {
-            return await _cryptoService.GetAllCryptos();
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<CryptoDto>> Create([FromBody] CryptoCreateDto cryptoCreateDto)
+        [HttpPut("price")]
+        public async Task<ActionResult<CryptoDto>> PriceChange([FromBody] PriceChangeDto price)
         {
             try
             {
-                var result = await _cryptoService.CreateCrypto(cryptoCreateDto);
+                var result = await _cryptoService.PriceChange(price);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CryptoDto>> GetCrypto(int id)
+        [HttpGet("price/history/{id}")]
+        public async Task<ActionResult<List<CryptoFluctuationDto>>> History(int id)
         {
-            try
-            {
-                return Ok(await _cryptoService.GetCrypto(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            try
-            {
-                await _cryptoService.DeleteCrypto(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _cryptoService.History(id));
         }
     }
 }

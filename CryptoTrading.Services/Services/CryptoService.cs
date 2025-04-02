@@ -17,6 +17,8 @@ namespace CryptoTrading.Services.Services
         Task<CryptoDto> CreateCrypto(CryptoCreateDto crypto);
         Task<CryptoDto> GetCrypto(int id);
         Task<bool> DeleteCrypto(int id);
+        Task<CryptoDto> PriceChange(PriceChangeDto price);
+        Task<List<CryptoFluctuationDto>> History(int id);
     }
 
     public class CryptoService : ICryptoService
@@ -90,15 +92,46 @@ namespace CryptoTrading.Services.Services
             throw new Exception("Crypto not found");
 
         }
+        public async Task<CryptoDto> PriceChange(PriceChangeDto price)
+        {
+            var crypto = await _context.CryptoCurrencies.FirstOrDefaultAsync(c => c.Id == price.CryptoId);
+            if (crypto != default)
+            {
+                try
+                {
+
+                    decimal oldPrice = crypto.CurrentPrice;
+                    crypto.CurrentPrice = price.NewPrice;
+                    var cryptoFluc = new CryptoPriceFluctuation()
+                    {
+                        CryptoCurrencyId = crypto.Id,
+                        OldPrice = oldPrice,
+                        Price = price.NewPrice
+                    };
+                    await _context.CryptoPriceFluctuations.AddAsync(cryptoFluc);
+                    await _context.SaveChangesAsync();
+                    return _mapper.Map(crypto, new CryptoDto());
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Server error: {ex.Message}");
+                }
+
+            }
+            throw new Exception("Crypto not found");
+        }
+
+        public async Task<List<CryptoFluctuationDto>> History(int id)
+        {
+            List<CryptoFluctuationDto> histories = new List<CryptoFluctuationDto>();
+            var cryptoHistory = await _context.CryptoPriceFluctuations.Include(c => c.CryptoCurrency).Where(f => f.CryptoCurrencyId == id).ToListAsync();
+            cryptoHistory.ForEach(ch => histories.Add(_mapper.Map(ch, new CryptoFluctuationDto())));
+            return histories;
+        }
 
         private async Task<bool> CryptoExists(string name)
         {
             return _context.CryptoCurrencies.Any(c => c.Name == name);
-        }
-
-        private async Task<bool> CryptoExists(int id)
-        {
-            return _context.CryptoCurrencies.Any(c => c.Id == id);
         }
 
     }
