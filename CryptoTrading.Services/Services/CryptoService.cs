@@ -124,7 +124,7 @@ namespace CryptoTrading.Services.Services
         public async Task<List<CryptoFluctuationDto>> History(int id)
         {
             List<CryptoFluctuationDto> histories = new List<CryptoFluctuationDto>();
-            var cryptoHistory = await _context.CryptoPriceFluctuations.Include(c => c.CryptoCurrency).Where(f => f.CryptoCurrencyId == id).ToListAsync();
+            var cryptoHistory = await _context.CryptoPriceFluctuations.Include(c => c.CryptoCurrency).Where(f => f.CryptoCurrencyId == id).OrderByDescending(item => item.Timestamp).ToListAsync();
             cryptoHistory.ForEach(ch => histories.Add(_mapper.Map(ch, new CryptoFluctuationDto())));
             return histories;
         }
