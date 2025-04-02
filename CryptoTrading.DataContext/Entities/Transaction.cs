@@ -11,15 +11,17 @@ namespace CryptoTrading.DataContext.Entities
     [Table("TransactionLogs")]
     public class Transaction : AbstractEntity
     {
-        public int UsertId { get; set; }
-        public int CryptoId { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public int CryptoCurrencyId { get; set; }
+        [ForeignKey("CryptoCurrencyId")]
         public ETransactionType TransactionType { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        //public CryptoCurrency Currency { get; set; }
-        //public User User { get; set; }
+        public CryptoCurrency CryptoCurrency { get; set; }
+        public User User { get; set; }
     }
 }

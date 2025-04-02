@@ -27,13 +27,18 @@ namespace CryptoTrading.Services.Services
             CreateMap<CryptoCurrency, CryptoDto>().ReverseMap();
             CreateMap<CryptoCreateDto, CryptoCurrency>()
                 .ForMember(dest => dest.CurrentPrice, act => act.MapFrom(a => a.InitialPrice));
-            CreateMap<Transaction, TransactionDto>().ReverseMap();
+            CreateMap<Transaction, TransactionDto>()
+                .ForMember(dest => dest.TransactionType, act=>act.MapFrom(t=>t.TransactionType.ToString()));
 
             CreateMap<Wallet, PortfolioDto>().ReverseMap();
             CreateMap<WalletHolding, WalletHoldingAmountDto>().ReverseMap();
 
             CreateMap<CryptoPriceFluctuation, CryptoFluctuationDto>()
                 .ForMember(dest => dest.Name, act => act.MapFrom(c => c.CryptoCurrency.Name));
+
+            CreateMap<Transaction, TransactionDetailDto>()
+                .ForMember(dest => dest.CryptoCurrency, act => act.MapFrom(t => t.CryptoCurrency))
+                .ForMember(dest => dest.TransactionType, act => act.MapFrom(t => t.TransactionType.ToString()));
 
         }
     }

@@ -48,12 +48,24 @@ namespace CryptoTrading.DataContext.Dtos
     public class TransactionDto
     {
         public int Id { get; set; }
-        public int UsertId { get; set; }
-        public int CryptoId { get; set; }
-        public ETransactionType TransactionType { get; set; }
-        public int Quantity { get; set; }
+        public int UserId { get; set; }
+        public int CryptoCurrencyId { get; set; }
+        public String TransactionType { get; set; }
+        public decimal Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    }
+
+    public class TransactionDetailDto
+    {
+        public int Id { get; set; }
+        public UserDataDto User { get; set; }
+        public CryptoDto CryptoCurrency { get; set; }
+        public string TransactionType { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal PricePerUnit { get; set; }
+        public decimal TotalPrice { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

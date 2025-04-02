@@ -43,7 +43,7 @@ namespace CryptoTrading.Services.Services
 
                 decimal currentPriceForAll = crypto.CryptoCurrency.CurrentPrice * crypto.Amount;
                 currentPriceSum += currentPriceForAll;
-                var transactions = await _context.Transactions.Where(t => t.CryptoId == crypto.CryptoCurrencyId && t.UsertId == userid).ToListAsync();
+                var transactions = await _context.Transactions.Where(t => t.CryptoCurrencyId == crypto.CryptoCurrencyId && t.UserId == userid).ToListAsync();
                 var sumBuyTransaction = transactions.Where(t => t.TransactionType == ETransactionType.BUY).Sum(item => item.TotalPrice);
                 var sumSellTransaction = transactions.Where(t => t.TransactionType == ETransactionType.SELL).Sum(item => item.TotalPrice);
                 holdPriceSum += (sumBuyTransaction - sumSellTransaction);
@@ -76,7 +76,7 @@ namespace CryptoTrading.Services.Services
 
                 decimal currentPriceForAll = crypto.CryptoCurrency.CurrentPrice * crypto.Amount;
                 currentPriceSum += currentPriceForAll;
-                var transactions = await _context.Transactions.Where(t => t.CryptoId == crypto.CryptoCurrencyId && t.UsertId == userid).ToListAsync();
+                var transactions = await _context.Transactions.Where(t => t.CryptoCurrencyId == crypto.CryptoCurrencyId && t.UserId == userid).ToListAsync();
                 var sumBuyTransaction = transactions.Where(t => t.TransactionType == ETransactionType.BUY).Sum(item => item.TotalPrice);
                 var sumSellTransaction = transactions.Where(t => t.TransactionType == ETransactionType.SELL).Sum(item => item.TotalPrice);
                 holdPriceSum += (sumBuyTransaction - sumSellTransaction);

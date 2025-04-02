@@ -77,8 +77,8 @@ namespace CryptoTrading.Services.Services
 
                     var transactionEntity = new Transaction()
                     {
-                        UsertId = user.Id,
-                        CryptoId = buy.CryptoId,
+                        UserId = user.Id,
+                        CryptoCurrencyId = buy.CryptoId,
                         PricePerUnit = crypto.CurrentPrice,
                         Quantity = buy.Amount,
                         TransactionType = ETransactionType.BUY,
@@ -138,8 +138,8 @@ namespace CryptoTrading.Services.Services
 
                     var transactionEntity = new Transaction()
                     {
-                        UsertId = user.Id,
-                        CryptoId = sell.CryptoId,
+                        UserId = user.Id,
+                        CryptoCurrencyId = sell.CryptoId,
                         PricePerUnit = crypto.CurrentPrice,
                         Quantity = sell.Amount,
                         TransactionType = ETransactionType.SELL,

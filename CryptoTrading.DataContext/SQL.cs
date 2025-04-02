@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,5 +19,10 @@ namespace CryptoTrading.DataContext
         public DbSet<CryptoCurrency> CryptoCurrencies { get; set; }
         public DbSet<CryptoPriceFluctuation> CryptoPriceFluctuations { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //lehet kell
+        }
     }
 }
