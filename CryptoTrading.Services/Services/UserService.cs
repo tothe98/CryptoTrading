@@ -17,7 +17,7 @@ namespace CryptoTrading.Services.Services
         Task<bool> RegisterUser(UserCreateDto user);
         Task<string> LoginUser(UserLoginDto user);
         Task<UserDataDto> GetUser(int id);
-        Task<UserDataDto> UpdateUser(UserUpdateDto userDto);
+        Task<UserDataDto> UpdateUser(int userid, UserUpdateDto userDto);
         Task<bool> DeleteUser(int id);
     }
     public class UserService : IUserService
@@ -117,9 +117,9 @@ namespace CryptoTrading.Services.Services
 
         }
 
-        public async Task<UserDataDto> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<UserDataDto> UpdateUser(int userid, UserUpdateDto userUpdateDto)
         {
-            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userUpdateDto.Id);
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userid);
             if (user != default)
             {
                 if (user.Email != userUpdateDto.Email && UserExists(userUpdateDto.Email))

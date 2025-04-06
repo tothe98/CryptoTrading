@@ -15,12 +15,12 @@ namespace CryptoTrading.Controllers
             _userService = userService;
         }
 
-        [HttpPut("update")]
-        public async Task<ActionResult<UserDataDto>> Update([FromBody] UserUpdateDto userUpdateDto)
+        [HttpPut("update/{userid}")]
+        public async Task<ActionResult<UserDataDto>> Update(int userid, [FromBody] UserUpdateDto userUpdateDto)
         {
             try
             {
-                var user = await _userService.UpdateUser(userUpdateDto);
+                var user = await _userService.UpdateUser(userid, userUpdateDto);
                 return Ok(user);
             }
             catch (Exception e)

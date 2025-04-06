@@ -1,6 +1,7 @@
 using CryptoTrading.DataContext;
 using CryptoTrading.Extensions;
 using CryptoTrading.Services.Security;
+using CryptoTrading.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -63,6 +64,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<IInitialService>();
+    await seeder.Seed();
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI(options =>
