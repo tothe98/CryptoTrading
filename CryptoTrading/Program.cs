@@ -2,8 +2,11 @@ using CryptoTrading.DataContext;
 using CryptoTrading.Extensions;
 using CryptoTrading.Services.Security;
 using CryptoTrading.Services.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,10 +27,25 @@ string? Audience = builder.Configuration["JWT:Audience"];
 string? Issuer = builder.Configuration["JWT:Issuer"];
 builder.Services.AddScoped<TokenHandlerService>(sp => new TokenHandlerService(JWTKey, Issuer, Audience));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = Issuer,
+            ValidAudience = Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(JWTKey)
+        };
+    });
+
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
-    options.AddPolicy("UserPolicy", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
+    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
 });
 
 builder.Services.AddCors();
@@ -76,7 +94,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseCors(options =>
 {

@@ -1,6 +1,7 @@
 ﻿using CryptoTrading.DataContext;
 using CryptoTrading.DataContext.Dtos;
 using CryptoTrading.DataContext.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,28 +29,30 @@ namespace CryptoTrading.Services.Services
 
         public async Task Seed()
         {
-            _context.CryptoCurrencies.RemoveRange(_context.CryptoCurrencies);
-            _context.CryptoPriceFluctuations.RemoveRange(_context.CryptoPriceFluctuations);
-            _context.Transactions.RemoveRange(_context.Transactions);
-            _context.Wallets.RemoveRange(_context.Wallets);
-            _context.WalletHoldings.RemoveRange(_context.WalletHoldings);
-            _context.Users.RemoveRange(_context.Users);
-            await _context.SaveChangesAsync();
-
-            Console.WriteLine("Databased cleard.");
-
-
-            await _userService.RegisterUser(new UserCreateDto()
+            if (await _context.CryptoCurrencies.CountAsync() < 15 || await _context.Users.CountAsync() == 0)
             {
-                Username = "admin",
-                Email = "admin@local",
-                Password = "TestPass123",
-                PasswordConfirm = "TestPass123",
-                Role = ERole.ADMIN,
-            });
+                _context.CryptoCurrencies.RemoveRange(_context.CryptoCurrencies);
+                _context.CryptoPriceFluctuations.RemoveRange(_context.CryptoPriceFluctuations);
+                _context.Transactions.RemoveRange(_context.Transactions);
+                _context.Wallets.RemoveRange(_context.Wallets);
+                _context.WalletHoldings.RemoveRange(_context.WalletHoldings);
+                _context.Users.RemoveRange(_context.Users);
+                await _context.SaveChangesAsync();
 
-            var cryptos = new[]
-            {
+                Console.WriteLine("Databased cleard.");
+
+
+                await _userService.RegisterUser(new UserCreateDto()
+                {
+                    Username = "admin",
+                    Email = "admin@local",
+                    Password = "TestPass123",
+                    PasswordConfirm = "TestPass123",
+                    Role = ERole.ADMIN,
+                });
+
+                var cryptos = new[]
+                {
                 new CryptoCreateDto(){Name = "Bitcoin", Symbol = "BTC", InitialPrice = 28000},
                 new CryptoCreateDto() { Name = "Ethereum", Symbol = "ETH", InitialPrice = 1800 },
                 new CryptoCreateDto() { Name = "Cardano", Symbol = "ADA", InitialPrice = 0.35m },
@@ -67,9 +70,10 @@ namespace CryptoTrading.Services.Services
                 new CryptoCreateDto() { Name = "Tezos", Symbol = "XTZ", InitialPrice = 1.1m },
             };
 
-            foreach (var crypto in cryptos)
-            {
-                await _cryptoService.CreateCrypto(crypto);
+                foreach (var crypto in cryptos)
+                {
+                    await _cryptoService.CreateCrypto(crypto);
+                }
             }
 
 

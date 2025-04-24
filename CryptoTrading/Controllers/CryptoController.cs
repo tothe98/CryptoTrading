@@ -1,5 +1,6 @@
 ﻿using CryptoTrading.DataContext.Dtos;
 using CryptoTrading.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoTrading.Controllers
