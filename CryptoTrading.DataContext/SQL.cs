@@ -21,6 +21,7 @@ namespace CryptoTrading.DataContext
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Alert> Alerts { get; set; }
         public DbSet<AlertLog> AlertLogs { get; set; }
+        public DbSet<Fee> Fees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

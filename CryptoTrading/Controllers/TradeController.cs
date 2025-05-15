@@ -16,7 +16,7 @@ namespace CryptoTrading.Controllers
         }
 
         [HttpPost("buy")]
-        public async Task<ActionResult<TransactionDto>> Buy([FromBody] CryptoBuySellDto crypto)
+        public async Task<ActionResult<TransactionReturnDto>> Buy([FromBody] CryptoBuySellDto crypto)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace CryptoTrading.Controllers
         }
 
         [HttpPost("sell")]
-        public async Task<ActionResult<TransactionDto>> Sell([FromBody] CryptoBuySellDto crypto)
+        public async Task<ActionResult<TransactionReturnDto>> Sell([FromBody] CryptoBuySellDto crypto)
         {
             try
             {
@@ -43,5 +43,26 @@ namespace CryptoTrading.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("gift")]
+        public async Task<ActionResult<TransactionReturnDto>> Gift([FromBody] GiftCryptoDto crypto)
+        {
+            try
+            {
+                var result = await _tradeService.GiftCrypto(crypto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("gifts/{userId}")]
+        public async Task<ActionResult<List<GiftHistoryDto>>> GetGiftHistory(int userId)
+        {
+            var result = await _tradeService.GetGiftHistoryAsync(userId);
+            return Ok(result);
+        }
+
     }
 }

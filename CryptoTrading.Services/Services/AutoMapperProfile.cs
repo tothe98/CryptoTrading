@@ -45,6 +45,7 @@ namespace CryptoTrading.Services.Services
             CreateMap<Alert, AlertDetailsDto>().
                 ForMember(dest => dest.LimitType, act => act.MapFrom(a => a.LimitType.ToString()));
             CreateMap<Alert, CryptoDto>();
+            CreateMap<Fee, FeeDto>().ReverseMap();
 
         }
     }

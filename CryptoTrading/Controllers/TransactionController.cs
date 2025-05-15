@@ -36,5 +36,35 @@ namespace CryptoTrading.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("fees")]
+        public async Task<ActionResult<FeeDto>> NewFee([FromBody] CreateFee fee)
+        {
+            try
+            {
+                if (fee.NewFee > 50 || fee.NewFee < 0)
+                {
+                    return BadRequest("A fee-nek 0 és 50 között kell lennie!");
+                }
+                else
+                {
+                    return await _transactionService.NewFee(fee.NewFee);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet("/fees/{userId}")]
+        public async Task<ActionResult<FeeStat>> GetFee(int userId)
+        {
+            return Ok(await _transactionService.GetFees(userId));
+        }
+
+
     }
 }

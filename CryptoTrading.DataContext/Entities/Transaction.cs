@@ -20,6 +20,7 @@ namespace CryptoTrading.DataContext.Entities
         public decimal PricePerUnit { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public decimal FeeValue { get; set; }
 
         public CryptoCurrency CryptoCurrency { get; set; }
         public User User { get; set; }

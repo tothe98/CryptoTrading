@@ -68,4 +68,25 @@ namespace CryptoTrading.DataContext.Dtos
         public decimal TotalPrice { get; set; }
         public DateTime Timestamp { get; set; }
     }
+
+    public class GiftCryptoDto
+    {
+        public int SenderUserId { get; set; }
+        public int RecipientUserId { get; set; }
+        public int CryptoCurrencyId { get; set; }
+        public decimal Quantity { get; set; }
+    }
+
+    public class GiftHistoryDto
+    {
+        public string CryptoName { get; set; }
+        public decimal Quantity { get; set; }
+
+        public decimal PriceAtGiftTime { get; set; }    // ajándékozáskori ár
+        public decimal CurrentPrice { get; set; }       // jelenlegi ár
+
+        public DateTime Timestamp { get; set; }
+
+        public string Direction { get; set; }           // "sent" vagy "received"
+    }
 }
