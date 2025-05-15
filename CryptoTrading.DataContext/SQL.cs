@@ -19,6 +19,8 @@ namespace CryptoTrading.DataContext
         public DbSet<CryptoCurrency> CryptoCurrencies { get; set; }
         public DbSet<CryptoPriceFluctuation> CryptoPriceFluctuations { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
+        public DbSet<AlertLog> AlertLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

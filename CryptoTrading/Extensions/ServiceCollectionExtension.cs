@@ -14,8 +14,10 @@ namespace CryptoTrading.Extensions
             services.AddScoped<IPortfolioService, PortfolioService>();
             services.AddScoped<IProfitService, ProfitService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IAlertService, AlertService>();
             services.AddScoped<IInitialService, InitialService>();
             services.AddHostedService<CryptoBackgroundService>();
+            services.AddHostedService<AlertBackgroundService>();
         }
     }
 }

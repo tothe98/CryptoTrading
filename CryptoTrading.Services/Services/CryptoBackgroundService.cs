@@ -1,5 +1,6 @@
 ﻿using CryptoTrading.DataContext;
 using CryptoTrading.DataContext.Entities;
+using CryptoTrading.DataContext.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

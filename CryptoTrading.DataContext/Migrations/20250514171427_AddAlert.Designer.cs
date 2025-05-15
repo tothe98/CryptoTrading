@@ -4,6 +4,7 @@ using CryptoTrading.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoTrading.DataContext.Migrations
 {
     [DbContext(typeof(SQL))]
-    partial class SQLModelSnapshot : ModelSnapshot
+    [Migration("20250514171427_AddAlert")]
+    partial class AddAlert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace CryptoTrading.DataContext.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CryptoTrading.DataContext.Entities.Alert", b =>
+            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,12 +35,6 @@ namespace CryptoTrading.DataContext.Migrations
 
                     b.Property<int>("CryptoCurrencyId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTriggered")
-                        .HasColumnType("bit");
 
                     b.Property<int>("LimitType")
                         .HasColumnType("int");
@@ -57,7 +54,7 @@ namespace CryptoTrading.DataContext.Migrations
                     b.ToTable("Alerts");
                 });
 
-            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertLog", b =>
+            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertLogEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +242,7 @@ namespace CryptoTrading.DataContext.Migrations
                     b.ToTable("WalletHoldings");
                 });
 
-            modelBuilder.Entity("CryptoTrading.DataContext.Entities.Alert", b =>
+            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertEntity", b =>
                 {
                     b.HasOne("CryptoTrading.DataContext.Entities.CryptoCurrency", "CryptoCurrency")
                         .WithMany()
@@ -264,9 +261,9 @@ namespace CryptoTrading.DataContext.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertLog", b =>
+            modelBuilder.Entity("CryptoTrading.DataContext.Entities.AlertLogEntity", b =>
                 {
-                    b.HasOne("CryptoTrading.DataContext.Entities.Alert", "Alert")
+                    b.HasOne("CryptoTrading.DataContext.Entities.AlertEntity", "Alert")
                         .WithMany()
                         .HasForeignKey("AlertId")
                         .OnDelete(DeleteBehavior.Cascade)
