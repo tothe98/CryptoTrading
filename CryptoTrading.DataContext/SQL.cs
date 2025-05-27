@@ -23,6 +23,9 @@ namespace CryptoTrading.DataContext
         public DbSet<AlertLog> AlertLogs { get; set; }
         public DbSet<Fee> Fees { get; set; }
 
+        public DbSet<SavingLock> SavingLocks { get; set; }
+        public DbSet<CryptoInterestRate> CryptoInterestRates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //lehet kell

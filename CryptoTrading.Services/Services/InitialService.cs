@@ -1,5 +1,6 @@
 ﻿using CryptoTrading.DataContext;
 using CryptoTrading.DataContext.Dtos;
+using CryptoTrading.DataContext.Entities;
 using CryptoTrading.DataContext.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,6 +30,7 @@ namespace CryptoTrading.Services.Services
 
         public async Task Seed()
         {
+            
             if (await _context.CryptoCurrencies.CountAsync() < 15 || await _context.Users.CountAsync() == 0)
             {
                 _context.CryptoCurrencies.RemoveRange(_context.CryptoCurrencies);
@@ -37,6 +39,8 @@ namespace CryptoTrading.Services.Services
                 _context.Wallets.RemoveRange(_context.Wallets);
                 _context.WalletHoldings.RemoveRange(_context.WalletHoldings);
                 _context.Users.RemoveRange(_context.Users);
+                _context.Fees.RemoveRange(_context.Fees);
+                _context.CryptoInterestRates.RemoveRange(_context.CryptoInterestRates);
                 await _context.SaveChangesAsync();
 
                 Console.WriteLine("Databased cleard.");
@@ -72,9 +76,26 @@ namespace CryptoTrading.Services.Services
 
                 foreach (var crypto in cryptos)
                 {
-                    await _cryptoService.CreateCrypto(crypto);
+                    var created = await _cryptoService.CreateCrypto(crypto);
+                    await _context.CryptoInterestRates.AddAsync(new CryptoInterestRate
+                    {
+                        CryptoCurrencyId = created.Id,
+                        InterestRate = 5,
+                    });
                 }
+
+                await _context.Fees.AddAsync(new DataContext.Entities.Fee()
+                {
+                    CreatedAt = DateTime.Now,
+                    FeeValue = 0.02m
+                });
+
+                await _context.SaveChangesAsync();
+
+
             }
+
+
 
 
 

@@ -47,6 +47,8 @@ namespace CryptoTrading.Services.Services
             CreateMap<Alert, CryptoDto>();
             CreateMap<Fee, FeeDto>().ReverseMap();
 
+            CreateMap<SavingLock, CreateSavingLockDto>();
+
         }
     }
 }

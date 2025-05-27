@@ -18,6 +18,8 @@ namespace CryptoTrading.Extensions
             services.AddScoped<IInitialService, InitialService>();
             services.AddHostedService<CryptoBackgroundService>();
             services.AddHostedService<AlertBackgroundService>();
+            services.AddHostedService<SavingLockBackgroundService>();
+            services.AddScoped<ISavingService, SavingService>();
         }
     }
 }
